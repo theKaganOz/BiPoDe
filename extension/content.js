@@ -44,7 +44,7 @@ function displayWidget(data) {
 async function analyzePageSentiments() {
     try {
         const pageText = document.body.innerText;
-        const response = await fetch('http://localhost:5000/analyze', {
+        const response = await fetch('https://bipode-3ce18492867a.herokuapp.com/analyze', { // Updated URL
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text: pageText })

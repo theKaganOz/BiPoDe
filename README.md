@@ -1,2 +1,2 @@
 # BiPoDe
-BiPoDe is a sentiment analysis add o.
+BiPoDe is a sentiment analysis add on.

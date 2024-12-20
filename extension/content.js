@@ -1,6 +1,10 @@
 const sentiment = new Sentiment();
 
-// Function to display the sentiment widget
+document.addEventListener("DOMContentLoaded", () => {
+    analyzePageSentiments();
+    highlightSentences();
+});
+
 function displayWidget(data) {
     const widgetHTML = `
         <div id="sentiment-widget" style="
@@ -33,18 +37,19 @@ function displayWidget(data) {
             <p style="font-size: 1.1em;"><strong>Overall Sentiment Score:</strong> ${data.overall_sentiment.toFixed(2)}</p>
         </div>
     `;
-    // Remove existing widget if present
     const existingWidget = document.getElementById('sentiment-widget');
     if (existingWidget) existingWidget.remove();
 
     document.body.insertAdjacentHTML('beforeend', widgetHTML);
 }
 
-// Function to send page content to the Flask server and retrieve metrics
 async function analyzePageSentiments() {
     try {
-        const pageText = document.body.innerText;
-        const response = await fetch('https://bipode-3ce18492867a.herokuapp.com/analyze', { // Updated URL
+        const pageText = Array.from(document.querySelectorAll('p, span, div'))
+            .map(el => el.innerText)
+            .join(' ');
+
+        const response = await fetch('https://bipode-3ce18492867a.herokuapp.com/analyze', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ text: pageText })
@@ -56,17 +61,15 @@ async function analyzePageSentiments() {
         }
 
         const result = await response.json();
-        console.log('Sentiment Analysis Result:', result);
         displayWidget(result);
     } catch (error) {
-        console.error('Error:', error);
+        console.error('Error:', error.message);
     }
 }
 
-// Highlight sentences on the page based on their sentiment scores
 function highlightSentences() {
     document.querySelectorAll('p').forEach(paragraph => {
-        const sentences = paragraph.innerText.split(/(?<!\w\.\w.)(?<![A-Z][a-z]\.)(?<=\.|\?|\!)\s+/);
+        const sentences = paragraph.innerText.split(/(?<!\w\.\w.)(?<![A-Z][a-z]\.)\s+/);
         let highlightedHTML = '';
 
         sentences.forEach(sentence => {
@@ -83,9 +86,3 @@ function highlightSentences() {
         paragraph.innerHTML = highlightedHTML;
     });
 }
-
-// Execute both the analysis and highlighting
-(async () => {
-    await analyzePageSentiments();
-    highlightSentences();
-})();

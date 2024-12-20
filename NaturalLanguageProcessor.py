@@ -20,6 +20,12 @@ sia = SentimentIntensityAnalyzer()
 transformer_pipeline = pipeline("sentiment-analysis")
 
 @app.route('/analyze', methods=['GET', 'POST', 'OPTIONS'])
+def handle_options():
+    response = jsonify({})
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+    return response, 200
 def analyze_sentiment():
     if request.method == 'OPTIONS':
         response = jsonify({})

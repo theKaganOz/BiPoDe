@@ -1,0 +1,12 @@
+{
+  "manifest_version": 3,
+  "name": "Manipulation Detection Tool",
+  "version": "1.0",
+  "permissions": ["activeTab", "scripting"],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["sentiment.js", "content.js"]
+    }
+  ]
+}

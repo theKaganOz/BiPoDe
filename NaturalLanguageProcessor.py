@@ -12,8 +12,7 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 
 app = Flask(__name__)
 
-
-CORS(app, supports_credentials=True)
+CORS(app)
 # Initialize NLP models
 nltk.download("vader_lexicon")
 sia = SentimentIntensityAnalyzer()

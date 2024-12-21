@@ -13,22 +13,20 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 
 app = Flask(__name__)
 
+# Configure Flask-CORS for Cross-Origin Resource Sharing
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 
-# Configure Talisman for security
+# Configure Talisman for security AFTER CORS
 csp = {
     'default-src': "'self'",
     'script-src': ["'self'", "https://cdn.jsdelivr.net"],  # Add trusted script sources if needed
     'connect-src': ["'self'", "https://bipode-3ce18492867a.herokuapp.com"],  # Your API server
 }
 Talisman(app, content_security_policy=csp, force_https=True)
-# Configure CORS
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
-app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Initialize NLP models
 nltk.download("vader_lexicon")
 sia = SentimentIntensityAnalyzer()
-
 transformer_pipeline = pipeline("sentiment-analysis")
 
 @app.route('/analyze', methods=['OPTIONS', 'POST'])
@@ -37,8 +35,8 @@ def analyze_sentiment():
     if request.method == 'OPTIONS':
         response = jsonify({})
         response.headers["Access-Control-Allow-Origin"] = "*"
-        response.headers["Access-Control-Allow-Headers"] = "*"
-        response.headers["Access-Control-Allow-Methods"] = "*"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+        response.headers["Access-Control-Allow-Methods"] = "POST, OPTIONS"
         return response, 200
 
     # Handle POST request

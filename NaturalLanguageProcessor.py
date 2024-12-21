@@ -5,7 +5,8 @@ Created on Tue Dec 17 13:28:19 2024
 @author: Speculum Analytics
 """
 from flask import Flask, request, jsonify
-from flask_cors import CORS, cross_origin  # Import CORS
+from flask_cors import CORS
+from flask_talisman import Talisman
 from transformers import pipeline
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer
@@ -15,6 +16,14 @@ app = Flask(__name__)
 # Configure CORS
 CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
+
+# Configure Talisman for security
+csp = {
+    'default-src': "'self'",
+    'script-src': ["'self'", "https://cdn.jsdelivr.net"],  # Add trusted script sources if needed
+    'connect-src': ["'self'", "https://bipode-3ce18492867a.herokuapp.com"],  # Your API server
+}
+Talisman(app, content_security_policy=csp, force_https=True)
 
 # Initialize NLP models
 nltk.download("vader_lexicon")

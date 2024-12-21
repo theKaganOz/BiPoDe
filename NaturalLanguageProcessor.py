@@ -28,8 +28,8 @@ def analyze_sentiment():
     if request.method == 'OPTIONS':
         response = jsonify({})
         response.headers["Access-Control-Allow-Origin"] = "*"
-        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-        response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
+        response.headers["Access-Control-Allow-Headers"] = "*"
+        response.headers["Access-Control-Allow-Methods"] = "*"
         return response, 200
 
     # Handle POST request

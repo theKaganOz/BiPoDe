@@ -5,7 +5,7 @@ Created on Tue Dec 17 13:28:19 2024
 @author: Speculum Analytics
 """
 from flask import Flask, request, jsonify
-from flask_cors import CORS  # Import CORS
+from flask_cors import CORS, cross_origin  # Import CORS
 from transformers import pipeline
 import nltk
 from nltk.sentiment import SentimentIntensityAnalyzer

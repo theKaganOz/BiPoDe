@@ -13,9 +13,6 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 
 app = Flask(__name__)
 
-# Configure CORS
-CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
-app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Configure Talisman for security
 csp = {
@@ -24,6 +21,9 @@ csp = {
     'connect-src': ["'self'", "https://bipode-3ce18492867a.herokuapp.com"],  # Your API server
 }
 Talisman(app, content_security_policy=csp, force_https=True)
+# Configure CORS
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
+app.config['CORS_HEADERS'] = 'Content-Type'
 
 # Initialize NLP models
 nltk.download("vader_lexicon")

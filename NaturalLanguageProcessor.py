@@ -12,29 +12,27 @@ from nltk.sentiment import SentimentIntensityAnalyzer
 
 app = Flask(__name__)
 
-CORS(app)
+# Configure CORS
+CORS(app, resources={r"/*": {"origins": "*"}}, supports_credentials=True)
 app.config['CORS_HEADERS'] = 'Content-Type'
+
 # Initialize NLP models
 nltk.download("vader_lexicon")
 sia = SentimentIntensityAnalyzer()
 
 transformer_pipeline = pipeline("sentiment-analysis")
 
-@app.route('/analyze', methods=['GET', 'POST', 'OPTIONS'])
-def handle_options():
-    response = jsonify({})
-    response.headers["Access-Control-Allow-Origin"] = "*"
-    response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
-    response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
-    return response, 200
+@app.route('/analyze', methods=['OPTIONS', 'POST'])
 def analyze_sentiment():
+    # Handle OPTIONS request (preflight)
     if request.method == 'OPTIONS':
         response = jsonify({})
         response.headers["Access-Control-Allow-Origin"] = "*"
-        response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+        response.headers["Access-Control-Allow-Headers"] = "Content-Type, Authorization"
         response.headers["Access-Control-Allow-Methods"] = "GET, POST, OPTIONS"
         return response, 200
 
+    # Handle POST request
     if request.method == 'POST':
         data = request.json
         text = data.get("text", "")
@@ -69,7 +67,7 @@ def analyze_sentiment():
 
         # Polarization score
         polarization = ((avg_positive - avg_negative) ** 2) 
-        # overall sentiment score
+        # Overall sentiment score
         overall_sentiment = avg_positive + avg_negative
         response = {
             "no_positive": no_positive,

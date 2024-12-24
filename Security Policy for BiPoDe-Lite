@@ -1,0 +1,71 @@
+### **Security Policy for Browser Extension**
+
+---
+
+#### **Overview**
+This security policy outlines the measures and practices implemented to ensure the safety and privacy of users who use this browser extension. The extension is designed to analyze text content on web pages for sentiment analysis and emotional manipulation. It does not collect, store, or transmit any user data beyond the content present on the current page.
+
+---
+
+#### **Key Security Principles**
+1. **Data Minimization**
+   - The extension only accesses the content of the active web page when explicitly triggered by the user.
+   - No user data, personal information, or browsing history is collected, stored, or transmitted to external servers.
+
+2. **Local Processing**
+   - All data processing and analysis are performed locally within the user's browser.
+   - No data is sent to external servers, APIs, or third-party services for processing.
+
+3. **Permission Usage**
+   - The extension uses the minimum required permissions (`activeTab`, `scripting`) necessary for its functionality:
+     - **`activeTab`**: To access and analyze the content of the active tab only when the extension is triggered.
+     - **`scripting`**: To inject scripts needed for text analysis and DOM manipulation, limited to the active tab.
+   - Host permissions are narrowly scoped and do not request access to unnecessary domains or pages.
+
+4. **No Remote Code Execution**
+   - The extension does not rely on remote code, external JavaScript files, or dynamically loaded scripts from external domains.
+   - All code is bundled securely within the extension package to prevent unauthorized modifications or execution of malicious code.
+
+5. **Transparency**
+   - The extension does not perform any background operations without user knowledge.
+   - Users are notified of all actions performed by the extension (e.g., content analysis).
+
+6. **Security Reviews**
+   - Regular code reviews and audits are conducted to ensure the extension remains free from vulnerabilities and adheres to industry best practices.
+
+---
+
+#### **User Privacy**
+- No content from web pages is stored locally or transmitted externally.
+- The extension operates solely on the content of the active tab at the time of use and does not retain any data after the analysis is complete.
+- The extension does not access or interfere with any user account credentials, forms, or sensitive information on web pages.
+
+---
+
+#### **Mitigation Against Risks**
+1. **Injection Risks**
+   - The extension employs strict content security policies (CSP) to prevent cross-site scripting (XSS) attacks or unauthorized injection of scripts.
+   - Scripts are only executed on web pages explicitly allowed by the extension manifest.
+
+2. **Version Control**
+   - Updates to the extension are securely distributed through official browser extension stores.
+   - All changes are tested for security compliance before release.
+
+3. **Error Handling**
+   - Any errors encountered during processing are logged locally within the extension and are not transmitted outside the user's device.
+   - Error messages are generic and do not expose sensitive information about the user's environment.
+
+---
+
+#### **User Controls**
+- Users can disable or uninstall the extension at any time without any impact on their data or browsing experience.
+- Permissions can be reviewed and managed directly through the browser's extension management interface.
+
+---
+
+#### **Contact**
+For any security-related inquiries or to report potential vulnerabilities, users may contact the development team via [support@example.com].
+
+---
+
+This policy ensures that the extension adheres to the highest standards of user security and privacy while delivering its intended functionality.
